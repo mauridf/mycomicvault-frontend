@@ -1,0 +1,163 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-dark">{{ form.value.id ? 'Editar' : 'Nova' }} Editora</h2>
+    <button 
+      type="button" 
+      class="btn btn-outline-primary d-flex align-items-center"
+      (click)="buscarNaComicVine()"
+      [disabled]="isLoading"
+    >
+      <fa-icon [icon]="faSearch" class="me-2"></fa-icon>
+      Buscar na ComicVine
+    </button>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="salvar()" class="card p-4 bg-white">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="mb-4">
+          <label for="name" class="form-label">Nome *</label>
+          <input id="name" class="form-control shadow-sm" formControlName="name" placeholder="Digite o nome da editora" />
+          <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-danger mt-2">
+            <small>Nome é obrigatório.</small>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="aliases" class="form-label">Aliases</label>
+          <textarea id="aliases" class="form-control shadow-sm" formControlName="aliases" rows="3" placeholder="Outros nomes conhecidos"></textarea>
+          <small class="text-muted d-block mt-1">{{ form.get('aliases')?.value?.length || 0 }}/65535 caracteres</small>
+          <div *ngIf="form.get('aliases')?.errors?.['maxLength']" class="text-danger mt-2">
+            <small>O texto não pode exceder 65535 caracteres.</small>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="deck" class="form-label">Deck</label>
+          <textarea id="deck" class="form-control shadow-sm" formControlName="deck" rows="3" placeholder="Breve descrição"></textarea>
+          <small class="text-muted d-block mt-1">{{ form.get('deck')?.value?.length || 0 }}/65535 caracteres</small>
+          <div *ngIf="form.get('deck')?.errors?.['maxLength']" class="text-danger mt-2">
+            <small>O texto não pode exceder 65535 caracteres.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="mb-4">
+          <label for="logotipoMediumUrl" class="form-label">Logotipo Medium URL</label>
+          <input id="logotipoMediumUrl" class="form-control shadow-sm" formControlName="logotipoMediumUrl" placeholder="URL da imagem média" />
+        </div>
+
+        <div class="mb-4">
+          <label for="logotipoSmallUrl" class="form-label">Logotipo Small URL</label>
+          <input id="logotipoSmallUrl" class="form-control shadow-sm" formControlName="logotipoSmallUrl" placeholder="URL da imagem pequena" />
+        </div>
+
+        <div class="mb-4">
+          <label for="logotipoTinyUrl" class="form-label">Logotipo Tiny URL</label>
+          <input id="logotipoTinyUrl" class="form-control shadow-sm" formControlName="logotipoTinyUrl" placeholder="URL da imagem miniatura" />
+        </div>
+
+        <div class="mb-4">
+          <label for="idComicVinePublisher" class="form-label">ID Comic Vine Publisher</label>
+          <input type="number" id="idComicVinePublisher" class="form-control shadow-sm" formControlName="idComicVinePublisher" placeholder="ID da editora na Comic Vine" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="mb-4">
+          <label for="address" class="form-label">Endereço</label>
+          <input id="address" class="form-control shadow-sm" formControlName="address" placeholder="Endereço completo" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="mb-4">
+          <label for="city" class="form-label">Cidade</label>
+          <input id="city" class="form-control shadow-sm" formControlName="city" placeholder="Cidade" />
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="mb-4">
+          <label for="state" class="form-label">Estado</label>
+          <input id="state" class="form-control shadow-sm" formControlName="state" placeholder="Estado" />
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="mb-4">
+          <label for="siteDetailUrl" class="form-label">Site Detail URL</label>
+          <input id="siteDetailUrl" class="form-control shadow-sm" formControlName="siteDetailUrl" placeholder="URL do site oficial" />
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-4 pt-3">
+      <button type="button" class="btn btn-outline-secondary me-3 px-4" (click)="voltar()">
+        Cancelar
+      </button>
+      <button type="submit" class="btn btn-primary px-4" [disabled]="form.invalid">
+        Salvar
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Modal Comic Vine -->
+<app-modal 
+  title="Buscar na ComicVine" 
+  [visible]="showComicVineModal" 
+  (close)="showComicVineModal = false"
+>
+  <div class="input-group mb-3">
+    <input 
+      type="text" 
+      class="form-control" 
+      placeholder="Digite o nome da editora" 
+      [(ngModel)]="searchTerm"
+      (keyup.enter)="buscarNaComicVine()"
+    >
+    <button 
+      class="btn btn-primary" 
+      type="button" 
+      (click)="buscarNaComicVine()"
+      [disabled]="!searchTerm || isLoading"
+    >
+      <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1"></span>
+      Buscar
+    </button>
+  </div>
+
+  <div *ngIf="comicVineResults.length > 0" class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Aliases</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let editora of comicVineResults">
+          <td>{{ editora.name }}</td>
+          <td>{{ editora.aliases | truncate:50 }}</td>
+          <td>
+            <button 
+              class="btn btn-sm btn-success"
+              (click)="selecionarEditora(editora)"
+            >
+              Incluir
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="comicVineResults.length === 0 && !isLoading" class="text-center py-4">
+    Nenhum resultado encontrado
+  </div>
+</app-modal>
