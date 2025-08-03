@@ -1,0 +1,95 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Personagens</h2>
+    <a routerLink="/personagens/cadastrar" class="btn btn-primary">
+      <fa-icon [icon]="faPlus" class="me-1"></fa-icon>
+      Novo Personagem
+    </a>
+  </div>
+
+  <div class="search-container mb-4">
+    <div class="input-group">
+      <span class="input-group-text">
+        <fa-icon [icon]="faSearch"></fa-icon>
+      </span>
+      <input 
+        type="text" 
+        class="form-control search-input" 
+        placeholder="Pesquisar por nome, alias..." 
+        [(ngModel)]="searchTerm"
+        (keyup.enter)="pesquisar()"
+      >
+      <button class="btn btn-outline-secondary" type="button" (click)="pesquisar()">
+        Pesquisar
+      </button>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Aliases</th>
+          <th>Gender</th>
+          <th>Origin Name</th>
+          <th>Real Name</th>
+          <th>Site</th>
+          <th class="text-end">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let personagem of personagens">
+          <td class="fw-bold">{{ personagem.name }}</td>
+          <td>{{ personagem.aliases || 'N/A' }}</td>
+          <td>{{ personagem.gender || 'N/A' }}</td>
+          <td>{{ personagem.originName || 'N/A' }}</td>
+          <td>{{ personagem.realName || 'N/A' }}</td>
+          <td>
+            <a *ngIf="personagem.siteDetailUrl" [href]="personagem.siteDetailUrl" target="_blank" class="site-link">
+              Visitar Site
+            </a>
+            <span *ngIf="!personagem.siteDetailUrl">N/A</span>
+          </td>
+          <td class="text-end">
+            <a 
+              [routerLink]="['/personagens/cadastrar', personagem.id]" 
+              class="btn btn-sm btn-edit btn-action me-2"
+            >
+              <fa-icon [icon]="faEdit" class="me-1"></fa-icon>
+              Editar
+            </a>
+            <button 
+              class="btn btn-sm btn-delete btn-action" 
+              (click)="deletar(personagem.id)"
+            >
+              <fa-icon [icon]="faTrash" class="me-1"></fa-icon>
+              Excluir
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="personagens.length === 0">
+          <td colspan="5" class="text-center py-4">Nenhum personagem encontrado</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mt-3">
+    <div class="text-muted">
+      Mostrando {{ getItemInicio() }} a {{ getItemFim() }} 
+      de {{ totalItems }} itens
+    </div>
+    
+    <pagination-controls 
+      *ngIf="totalItems > 0"
+      (pageChange)="pageChanged($event)"
+      previousLabel="« Anterior"
+      nextLabel="Próximo »"
+      screenReaderPaginationLabel="Paginação"
+      screenReaderPageLabel="Página"
+      screenReaderCurrentLabel="Página atual"
+      class="my-pagination"
+    ></pagination-controls>
+  </div>
+</div>

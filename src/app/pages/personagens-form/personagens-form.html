@@ -1,0 +1,205 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-dark">{{ form.value.id ? 'Editar' : 'Novo' }} Personagem</h2>
+    <button 
+      type="button" 
+      class="btn btn-outline-primary d-flex align-items-center"
+      (click)="buscarNaComicVine()"
+      [disabled]="isLoading"
+    >
+      <fa-icon [icon]="faSearch" class="me-2"></fa-icon>
+      Buscar na ComicVine
+    </button>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="salvar()" class="card p-4 bg-white">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="mb-4">
+          <label for="name" class="form-label">Nome *</label>
+          <input id="name" class="form-control shadow-sm" formControlName="name" placeholder="Digite o nome da editora" />
+          <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-danger mt-2">
+            <small>Nome é obrigatório.</small>
+          </div>
+        </div>
+
+        <div class="row">
+        <div class="col-md-12">
+            <div class="mb-4">
+            <label for="birth" class="form-label">Birth</label>
+            <input id="birth" class="form-control shadow-sm" formControlName="birth" placeholder="Nascimento, Surgimento" />
+            </div>
+        </div>
+        </div>
+
+        <div class="row">
+        <div class="col-md-12">
+            <div class="mb-4">
+            <label for="countOfIssueAppearances" class="form-label">Count Of Issue Appearences</label>
+            <input id="countOfIssueAppearances" class="form-control shadow-sm" formControlName="countOfIssueAppearances" placeholder="Total de Edições em que aparece" />
+            </div>
+        </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="aliases" class="form-label">Aliases</label>
+          <textarea id="aliases" class="form-control shadow-sm" formControlName="aliases" rows="3" placeholder="Outros nomes conhecidos"></textarea>
+          <small class="text-muted d-block mt-1">{{ form.get('aliases')?.value?.length || 0 }}/65535 caracteres</small>
+          <div *ngIf="form.get('aliases')?.errors?.['maxLength']" class="text-danger mt-2">
+            <small>O texto não pode exceder 65535 caracteres.</small>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="deck" class="form-label">Deck</label>
+          <textarea id="deck" class="form-control shadow-sm" formControlName="deck" rows="3" placeholder="Breve descrição"></textarea>
+          <small class="text-muted d-block mt-1">{{ form.get('deck')?.value?.length || 0 }}/65535 caracteres</small>
+          <div *ngIf="form.get('deck')?.errors?.['maxLength']" class="text-danger mt-2">
+            <small>O texto não pode exceder 65535 caracteres.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+            <div class="mb-4">
+            <label for="firstAppearedName" class="form-label">First Appeared Name</label>
+            <input id="firstAppearedName" class="form-control shadow-sm" formControlName="firstAppearedName" placeholder="Nome da Primeira Aparição" />
+            </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+            <div class="mb-4">
+            <label for="firstAppearedIssueNumber" class="form-label">First Appeared Issue Number</label>
+            <input id="firstAppearedIssueNumber" class="form-control shadow-sm" formControlName="firstAppearedIssueNumber" placeholder="Número da Edição da Primeira Aparição" />
+            </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+            <div class="mb-4">
+            <label for="gender" class="form-label">Gender</label>
+            <input id="gender" class="form-control shadow-sm" formControlName="gender" placeholder="Gênero" />
+            </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="mb-4">
+          <label for="imagemMediumUrl" class="form-label">Image Medium URL</label>
+          <input id="imagemMediumUrl" class="form-control shadow-sm" formControlName="imagemMediumUrl" placeholder="URL da imagem média" />
+        </div>
+
+        <div class="mb-4">
+          <label for="imagemSmallUrl" class="form-label">Image Small URL</label>
+          <input id="imagemSmallUrl" class="form-control shadow-sm" formControlName="imagemSmallUrl" placeholder="URL da imagem pequena" />
+        </div>
+
+        <div class="mb-4">
+          <label for="imagemTinyUrl" class="form-label">Image Tiny URL</label>
+          <input id="imagemTinyUrl" class="form-control shadow-sm" formControlName="imagemTinyUrl" placeholder="URL da imagem miniatura" />
+        </div>
+
+        <div class="mb-4">
+          <label for="idComicVineCharacter" class="form-label">ID Comic Vine Character</label>
+          <input type="number" id="idComicVineCharacter" class="form-control shadow-sm" formControlName="idComicVineCharacter" placeholder="ID do personagem na Comic Vine" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="mb-4">
+          <label for="originName" class="form-label">Origin Name</label>
+          <input id="originName" class="form-control shadow-sm" formControlName="originName" placeholder="Nome de Origem" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="mb-4">
+          <label for="realName" class="form-label">Real Name</label>
+          <input id="realName" class="form-control shadow-sm" formControlName="realName" placeholder="Nome Real" />
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="mb-4">
+          <label for="siteDetailUrl" class="form-label">Site Detail URL</label>
+          <input id="siteDetailUrl" class="form-control shadow-sm" formControlName="siteDetailUrl" placeholder="URL do site oficial" />
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-4 pt-3">
+      <button type="button" class="btn btn-outline-secondary me-3 px-4" (click)="voltar()">
+        Cancelar
+      </button>
+      <button type="submit" class="btn btn-primary px-4" [disabled]="form.invalid">
+        Salvar
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Modal Comic Vine -->
+<app-modal 
+  title="Buscar na ComicVine" 
+  [visible]="showComicVineModal" 
+  (close)="showComicVineModal = false"
+>
+  <div class="input-group mb-3">
+    <input 
+      type="text" 
+      class="form-control" 
+      placeholder="Digite o nome do personagem" 
+      [(ngModel)]="searchTerm"
+      (keyup.enter)="buscarNaComicVine()"
+    >
+    <button 
+      class="btn btn-primary" 
+      type="button" 
+      (click)="buscarNaComicVine()"
+      [disabled]="!searchTerm || isLoading"
+    >
+      <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1"></span>
+      Buscar
+    </button>
+  </div>
+
+  <div *ngIf="comicVineResults.length > 0" class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Nome de Origem</th>
+          <th>Nome Real</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let personagem of comicVineResults">
+          <td>{{ personagem.name }}</td>
+          <td>{{ personagem.origin?.name }}</td>
+          <td>{{ personagem.real_name }}</td>
+          <td>{{ personagem.aliases | truncate:50 }}</td>
+          <td>
+            <button 
+              class="btn btn-sm btn-success"
+              (click)="selecionarPersonagem(personagem)"
+            >
+              Incluir
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="comicVineResults.length === 0 && !isLoading" class="text-center py-4">
+    Nenhum resultado encontrado
+  </div>
+</app-modal>

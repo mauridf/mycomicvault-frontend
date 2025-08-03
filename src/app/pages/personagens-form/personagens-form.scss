@@ -1,0 +1,114 @@
+/* Estilo principal do container */
+.container.mt-4 {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Cabeçalho do formulário */
+.d-flex.justify-content-between.align-items-center.mb-4 {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* Card do formulário */
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Campos do formulário */
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 12px 15px;
+  transition: all 0.3s;
+  background-color: #f9f9f9;
+}
+
+.form-control:focus {
+  border-color: #4a6cf7;
+  box-shadow: 0 0 0 0.2rem rgba(74, 108, 247, 0.25);
+  background-color: #fff;
+}
+
+/* Labels */
+.form-label {
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 8px;
+}
+
+/* Botões */
+.btn {
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background-color: #4a6cf7;
+  border-color: #4a6cf7;
+}
+
+.btn-primary:hover {
+  background-color: #3a5ce4;
+  border-color: #3a5ce4;
+  transform: translateY(-2px);
+}
+
+.btn-outline-secondary {
+  border-color: #e0e0e0;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #f8f9fa;
+}
+
+/* Textarea */
+textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Contador de caracteres */
+.text-muted {
+  font-size: 0.85rem;
+  color: #6c757d !important;
+}
+
+/* Mensagens de erro */
+.text-danger {
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
+/* Seção de botões no rodapé */
+.d-flex.justify-content-end.mt-4 {
+  padding-top: 1.5rem;
+  border-top: 1px solid #e9ecef;
+  margin-top: 1.5rem;
+}
+
+/* Efeito hover nos itens da tabela */
+.table-hover tbody tr:hover {
+  background-color: rgba(74, 108, 247, 0.05);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .card {
+    padding: 1.5rem;
+  }
+  
+  .row > div {
+    margin-bottom: 1rem;
+  }
+}
